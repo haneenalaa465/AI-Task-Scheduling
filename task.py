@@ -3,8 +3,8 @@ class Task:
         self.__ID = ID
         self.__description = description
         self.__duration = duration
-        self._deadline = deadline
-        self._dependencies = dependencies
+        self.__deadline = deadline
+        self.__dependencies = dependencies
     
     def setID(self, ID):
         self.__ID = ID
