@@ -4,17 +4,25 @@ class Problem:
         self.schedule = []
         self.today = 0
 
-    def action(self):
-        # dictionary of possible tasks w/o dependencies with their costs
+    # return dictionary with all tasks w/o dependencies & their costs
+    def step_cost(self):
         possible_routes = dict()
         for i in range(len(self.tasks)):
             if self.tasks[i].dependcies == []:
                 cost = self.tasks[i].deadline - self.tasks[i].duration - self.today
                 possible_routes[self.tasks[i]] = cost
+        return possible_routes
 
+    # appends best task to schedule 
+    def action(self):
+        possible_routes = step_cost()
         min_task_cost = min(possible_routes, key=possible_routes.get)
         self.today += min_task_cost.get_duration()
         self.schedule.append(min_task_cost)
-        
+
+    # returns schedule    
     def result(self):
         return self.schedule
+
+    
+
