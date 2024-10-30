@@ -16,15 +16,5 @@ class Problem:
         self.today += min_task_cost.get_duration()
         self.schedule.append(min_task_cost)
         
-
-
-        
-
-
-            
-    
-    # def result(state):
-    #     if state == 1:
-    #         print(f"Task {} choosed")
-    #     else:
-    #         print(f"Task {} ignored")
+    def result(self):
+        return self.schedule
