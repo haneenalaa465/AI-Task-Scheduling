@@ -15,7 +15,7 @@ class Problem:
 
     # appends best task to schedule 
     def action(self):
-        possible_routes = step_cost()
+        possible_routes = self.step_cost()
         min_task_cost = min(possible_routes, key=possible_routes.get)
         self.today += min_task_cost.get_duration()
         self.schedule.append(min_task_cost)
@@ -24,5 +24,9 @@ class Problem:
     def result(self):
         return self.schedule
 
-    
+    # checks whether all tasks have been added
+    def goal_state(self):
+        if len(self.schedule) == len(self.tasks):
+            return True
+        return False
 
