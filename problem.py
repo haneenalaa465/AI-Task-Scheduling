@@ -4,22 +4,27 @@ class Problem:
         self.schedule = []
         self.today = 0
 
-    def action(schedule):
-        # list of possible tasks w/o dependencies with their costs
-        possible_routes = []
+    def action(self):
+        # dictionary of possible tasks w/o dependencies with their costs
+        possible_routes = dict()
         for i in range(len(self.tasks)):
-            if tasks[i].dependcies == []:
-                cost = tasks[i].deadline - tasks[i].duration - self.today
-                possible_routes.append([tasks[i], cost])
+            if self.tasks[i].dependcies == []:
+                cost = self.tasks[i].deadline - self.tasks[i].duration - self.today
+                possible_routes[self.tasks[i]] = cost
+
+        min_task_cost = min(possible_routes, key=possible_routes.get)
+        self.today += min_task_cost.get_duration()
+        self.schedule.append(min_task_cost)
         
+
 
         
 
 
             
     
-    def result(state):
-        if state == 1:
-            print(f"Task {} choosed")
-        else:
-            print(f"Task {} ignored")
+    # def result(state):
+    #     if state == 1:
+    #         print(f"Task {} choosed")
+    #     else:
+    #         print(f"Task {} ignored")
