@@ -1,9 +1,9 @@
 class Task:
-    def __init__(self,ID, description, duration, deadline, dependencies):
+    def __init__(self, ID, description, duration, deadline, dependencies):
         self.__ID = ID
         self.__description = description
         self.__duration = duration
-        self.__deadline = deadline
+        self._deadline = deadline
         self.__dependencies = dependencies
     
     def setID(self, ID):
@@ -30,10 +30,10 @@ class Task:
     def getDeadline(self):
         return self._deadline
     
-    def setDependies(self, dependencies):
+    def setDependencies(self, dependencies):
         self._dependencies = dependencies
     
-    def getDependies(self):
+    def getDependencies(self):
         return self.__dependencies
 
     
