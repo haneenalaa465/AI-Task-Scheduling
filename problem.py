@@ -19,6 +19,11 @@ class Problem:
         min_task_cost = min(possible_routes, key=possible_routes.get)
         self.today += min_task_cost.get_duration()
         self.schedule.append(min_task_cost)
+        for task in self.tasks:
+            if min_task_cost.getID() in task.getDependencies():
+                deps = task.getDependencies().remove(min_task_cost.getID())
+                task.setDependencies(deps)
+
 
     # returns schedule    
     def result(self):
