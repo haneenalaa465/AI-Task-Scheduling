@@ -1,6 +1,7 @@
 class Problem:
     def __init__(self, tasks):
         self.tasks = tasks
+        self.length = len(tasks)
         self.schedule = []
         self.today = 0
 
@@ -19,6 +20,7 @@ class Problem:
         min_task_cost = min(possible_routes, key=possible_routes.get)
         self.today += min_task_cost.get_duration()
         self.schedule.append(min_task_cost)
+        self.tasks.remove(min_task_cost)
         for task in self.tasks:
             if min_task_cost.getID() in task.getDependencies():
                 deps = task.getDependencies().remove(min_task_cost.getID())
@@ -31,7 +33,7 @@ class Problem:
 
     # checks whether all tasks have been added
     def goal_state(self):
-        if len(self.schedule) == len(self.tasks):
+        if len(self.schedule) == len(self.length):
             return True
         return False
 
