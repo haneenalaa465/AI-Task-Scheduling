@@ -1,6 +1,7 @@
 from problem import Problem
 from node import Node
 from task import Task
+from dfs import dfs
 from bfs import bfs_scheduler, print_schedule
 from ucs import UCS
 
@@ -18,7 +19,13 @@ def main():
     # BFS Trials
     print("\nRunning BFS Scheduler:")
     optimal_schedule_bfs = bfs_scheduler(problem)  
-    print_schedule(optimal_schedule_bfs)  
+    print_schedule(optimal_schedule_bfs) 
+
+    # Run the DFS scheduler
+    print("\nRunning DFS Scheduler:")
+    schedule = dfs(problem)
+    print_schedule(schedule)
+
     # UCS Trials
     print("\nRunning UCS Scheduler:")
     ucs = UCS(tree=None, init_state=0, problem=problem)
@@ -26,3 +33,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
