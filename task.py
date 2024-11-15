@@ -36,5 +36,8 @@ class Task:
     def getDependencies(self):
         return self.__dependencies
 
-    
+    def task_vis(self):
+        print("ID:", self.getID(), " Description:", self.getDescription(), " Duration:", self.getDuration(), 
+            " Deadline:", self.getDeadline(), " Dependencies:", self.getDependencies())
+
     
