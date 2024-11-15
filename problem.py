@@ -2,6 +2,7 @@
 class Problem:
     def __init__(self, tasks, init_state):
         self.tasks = tasks
+        self.length = len(tasks)
         self.init_state = init_state
         self.schedule = []
         self.today = 0
