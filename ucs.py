@@ -1,77 +1,100 @@
+# import queue  # q.put() / get()
+# from problem import Problem
+# class UCS:
+#     def __init__(self, tree, init_state, problem):
+#         self.frontier = queue.PriorityQueue() # the frontier's data str is a priority queue
+#         self.tree = tree
+#         self.init_state = init_state
+#         self.min_Path_cost = {}
+#         self.problem = problem # an instance form Problem
+
+#     def findPath(self):
+#         init_state = self.problem.init_state
+#         self.frontier.put((0, self.init_state))
+#         self.min_Path_cost[self.init_state.getID()] = 0 
+#         while not self.frontier.empty():
+#             current_cost, current_task = self.frontier.get()
+#             if current_task in self.problem.schedule:
+#                 continue  # to skip already scheduled t
+#             # check if it is the goal
+#             if self.problem.goal_state():
+#                 break
+
+#             possible_routes = self.problem.step_cost()
+#             for t, t_cost in possible_routes.items():
+#                 total_cost = current_cost+ t_cost
+#                 # print(f"Checking task {t.getID()} with cost {total_cost}")
+#                 if total_cost < self.min_Path_cost.get(t.getID()):
+#                     self.min_Path_cost[t.getID()] = total_cost
+#                     self.frontier.put((total_cost, t)) #  tuple
+#                     self.problem.schedule.append(t) 
+#                     # print(f"Added task {task.getID()} to frontier with cost {total_cost}")
+
+#             self.problem.action()
+
+#         self.print()
+
+#     def print(self):
+#         print("Optimal Schedule:", self.problem.schedule)
+#         print("Minimum Path Cost:", self.min_Path_cost)
+
+
+
 import queue  # q.put() / get()
 from problem import Problem
+
 class UCS:
     def __init__(self, tree, init_state, problem):
-        self.frontier = queue.PriorityQueue() # the frontier's data str is a priority queue
+        self.frontier = queue.PriorityQueue()  # the frontier's data str is a priority queue
         self.tree = tree
-        self.init_state = init_state
+        self.init_state = init_state 
         self.min_Path_cost = {}
-        self.problem = problem # an instance form Problem
+        self.problem = problem  # instance of Problem
 
     def findPath(self):
-        init_state = self.problem.init_state
-        self.frontier.put((0, self.init_state))
-        self.min_Path_cost[self.init_state.getID()] = 0 
+        initial_task = self.problem.tasks[self.init_state]  
+        self.frontier.put((0, initial_task.getID(), initial_task))  # Start with the initial task and 0 cost
+        self.min_Path_cost[initial_task.getID()] = 0
+
         while not self.frontier.empty():
-            current_cost, current_task = self.frontier.get()
+            current_cost, _, current_task = self.frontier.get()
+
             if current_task in self.problem.schedule:
-                continue  # to skip already scheduled t
-            # check if it is the goal
+                continue  # this is already scheduled so I will skip it --> continue
+
+            # check if we have reached the goal
             if self.problem.goal_state():
                 break
 
             possible_routes = self.problem.step_cost()
+
             for t, t_cost in possible_routes.items():
-                total_cost = current_cost+ t_cost
-                # print(f"Checking task {t.getID()} with cost {total_cost}")
-                if total_cost < self.min_Path_cost.get(t.getID()):
+                total_cost = current_cost + t_cost
+                if total_cost < self.min_Path_cost.get(t.getID(), float('inf')):
                     self.min_Path_cost[t.getID()] = total_cost
-                    self.frontier.put((total_cost, t)) #  tuple
-                    self.problem.schedule.append(t) 
-                    # print(f"Added task {task.getID()} to frontier with cost {total_cost}")
+                    # after updating, add the t and cost to the front. and to the final schedule
+                    self.frontier.put((total_cost, t.getID(), t))  
+                    self.problem.schedule.append(t)  
 
             self.problem.action()
 
-        self.print()
+        self.print_schedule()
 
-    def print(self):
-        print("Optimal Schedule:", self.problem.schedule)
-        print("Minimum Path Cost:", self.min_Path_cost)
+    def print_schedule(self):
+        print("Optimal Schedule:")
+        print("-" * 60)
+        print(f"{'Task ID':<8}{'Description':<20}{'Duration':<10}{'Deadline':<10}{'Dependencies':<20}{'Total Cost'}")
+        print("-" * 60)
 
+        for task in self.problem.schedule:
+            task_id = task.getID()
+            description = task.getDescription()
+            duration = task.getDuration()
+            deadline = task.getDeadline()
+            dependencies = ", ".join([str(dep) for dep in task.getDependencies()])
+            cost = self.min_Path_cost.get(task_id, "N/A")
+            
+            print(f"{task_id:<8}{description:<20}{duration:<10}{deadline:<10}{dependencies:<20}{cost}")
 
-
-
-        
-
-
-
-
-
-
-
-    
-
-
-# 2.      Add the starting node to the opened list. The node has
-# 3.      has zero distance value from itself
-# 4.      while True:
-# 5.         if opened is empty:
-# 6.            break # No solution found
-# 7.         selecte_node = remove from opened list, the node with
-# 8.                        the minimun distance value
-# 9.         if selected_node == target:
-# 10.           calculate path
-# 11.           return path
-# 12.        add selected_node to closed list
-# 13.        new_nodes = get the children of selected_node
-# 14.        if the selected node has children:
-# 15.           for each child in children:
-# 16.              calculate the distance value of child
-# 17.              if child not in closed and opened lists:
-# 18.                 child.parent = selected_node
-# 19.                 add the child to opened list
-# 20.              else if child in opened list:
-# 21.                 if the distance value of child is lower than
-# 22.                  the corresponding node in opened list:
-# 23.                    child.parent = selected_node
-# 24.                    add the child to opened list
+        print("-" * 60)
+        print(f"Minimum Path Cost: {self.min_Path_cost}")
