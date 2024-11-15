@@ -6,7 +6,7 @@ class Problem:
         self.schedule = []
         self.today = 0
 
-    # return dictionary with all tasks w/o dependencies & their costs
+    #return dictionary with all tasks w/o dependencies & their costs
     def step_cost(self):
         possible_routes = dict()
         for i in range(len(self.tasks)):
