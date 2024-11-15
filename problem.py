@@ -33,7 +33,7 @@ class Problem:
 
     # checks whether all tasks have been added
     def goal_state(self):
-        if len(self.schedule) == len(self.length):
+        if len(self.schedule) == self.length:
             return True
         return False
 
