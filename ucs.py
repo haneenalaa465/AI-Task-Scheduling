@@ -57,7 +57,7 @@ class UCS:
         self.min_Path_cost[initial_task.getID()] = 0
 
         while not self.frontier.empty():
-            current_cost, _, current_task = self.frontier.get()
+            current_cost, taskID, current_task = self.frontier.get()
 
             if current_task in self.problem.schedule:
                 continue  # this is already scheduled so I will skip it --> continue
@@ -82,9 +82,9 @@ class UCS:
 
     def print_schedule(self):
         print("Optimal Schedule:")
-        print("-" * 60)
+        print("-" *80 )
         print(f"{'Task ID':<8}{'Description':<20}{'Duration':<10}{'Deadline':<10}{'Dependencies':<20}{'Total Cost'}")
-        print("-" * 60)
+        print("-" * 80)
 
         for task in self.problem.schedule:
             task_id = task.getID()
@@ -96,5 +96,5 @@ class UCS:
             
             print(f"{task_id:<8}{description:<20}{duration:<10}{deadline:<10}{dependencies:<20}{cost}")
 
-        print("-" * 60)
+        print("-" * 80)
         print(f"Minimum Path Cost: {self.min_Path_cost}")
