@@ -20,15 +20,22 @@ class UCS:
             possible_routes = self.problem.step_cost()
             for t, t_cost in possible_routes.items():
                 total_cost = current_cost+ t_cost
+                # print(f"Checking task {t.getID()} with cost {total_cost}")
                 if total_cost < self.min_Path_cost.get(t.getID()):
                     self.min_Path_cost[t.getID()] = total_cost
                     self.frontier.put((total_cost, t)) #  tuple
                     self.problem.schedule.append(t) 
+                    # print(f"Added task {task.getID()} to frontier with cost {total_cost}")
+
+            self.problem.action()
+
         self.print()
 
     def print(self):
         print("Optimal Schedule:", self.problem.schedule)
         print("Minimum Path Cost:", self.min_Path_cost)
+
+
 
 
         

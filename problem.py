@@ -14,18 +14,26 @@ class Problem:
             if self.tasks[i].getDependencies() == []:
                 cost = self.tasks[i]._deadline - self.tasks[i].getDuration() - self.today
                 possible_routes[self.tasks[i]] = cost
+        # print("Possible Routes:", {t.getID(): c for t, c in possible_routes.items()})
         return possible_routes
 
     # appends best task to schedule 
     def action(self):
         possible_routes = self.step_cost()
+        if not possible_routes:  
+            # print("No tasks available to schedule!")
+            return
         min_task_cost = min(possible_routes, key=possible_routes.get)
         self.today += min_task_cost.getDuration()
         self.schedule.append(min_task_cost)
+        # print(f"Scheduled task {min_task_cost.getID()} at day {self.today}")
+
         for task in self.tasks:
             if min_task_cost.getID() in task.getDependencies():
-                deps = task.getDependencies().remove(min_task_cost.getID())
-                task.setDependencies(deps)
+                updated_deps = task.getDependencies()
+                updated_deps.remove(min_task_cost.getID())  
+                task.setDependencies(updated_deps)
+                # print(f"Updated dependencies for task {task.getID()}: {updated_deps}")
 
 
     # returns schedule    
