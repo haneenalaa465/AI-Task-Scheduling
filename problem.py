@@ -2,6 +2,7 @@
 class Problem:
     def __init__(self, tasks, init_state):
         self.tasks = tasks
+        self.length = len(tasks)
         self.init_state = init_state
         self.length = len(tasks)
         self.schedule = []
@@ -19,17 +20,17 @@ class Problem:
     # appends best task to schedule 
     def action(self):
         possible_routes = self.step_cost()
-        if not possible_routes:
-            return
-    
-        possible_routes = self.step_cost()
         min_task_cost = min(possible_routes, key=possible_routes.get)
         self.today += min_task_cost.getDuration()
         self.schedule.append(min_task_cost)
+        # print(f"Scheduled task {min_task_cost.getID()} at day {self.today}")
+
         for task in self.tasks:
             if min_task_cost.getID() in task.getDependencies():
-                deps = task.getDependencies().remove(min_task_cost.getID())
-                task.setDependencies(deps)
+                updated_deps = task.getDependencies()
+                updated_deps.remove(min_task_cost.getID())  
+                task.setDependencies(updated_deps)
+                # print(f"Updated dependencies for task {task.getID()}: {updated_deps}")
 
 
     # returns schedule    
