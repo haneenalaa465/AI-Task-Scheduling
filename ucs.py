@@ -14,9 +14,12 @@ class UCS:
         self.min_Path_cost[self.init_state.getID()] = 0 
         while not self.frontier.empty():
             current_cost, current_task = self.frontier.get()
+            if current_task in self.problem.schedule:
+                continue  # to skip already scheduled t
             # check if it is the goal
             if self.problem.goal_state():
                 break
+
             possible_routes = self.problem.step_cost()
             for t, t_cost in possible_routes.items():
                 total_cost = current_cost+ t_cost
