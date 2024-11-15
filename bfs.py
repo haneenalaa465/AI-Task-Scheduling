@@ -1,40 +1,77 @@
 from collections import deque
-from node import Node
 
-node_obj = Node
+class BFSScheduler:
+    def __init__(self, problem):
+        self.problem = problem
+        self.optimal_schedule = None
 
-def breadth_first_graph_search(problem, verbose=False):
-    """
-    Implements BFS for graph search with an optional verbose output.
-    """
-    node = Node.root(problem.init_state)  # Create the root node from the initial state
-    if problem.goal_test(node.state):  # Check if the initial state is the goal
-        return node_obj.solution(node), 1  # Return immediately if start is the goal
+    def bfs_tree(self):
+        # Initialize BFS queue
+        queue = deque()
+        # Each queue element is a tuple: (current_schedule, remaining_tasks, current_day, completed_tasks)
+        initial_state = ([], self.problem.tasks, self.problem.init_state, set())
+        queue.append(initial_state)
+        
+        optimal_schedule = None
+        optimal_cost = float('inf')  # Tracks the lowest cost
 
-    frontier = deque([node])  # Initialize the frontier with the root node
-    explored = set()  # Set to keep track of explored nodes
-    max_frontier_size = 1  # Initialize max frontier size
+        while queue:
+            current_schedule, remaining_tasks, current_day, completed_tasks = queue.popleft()
 
-    # if verbose:
-    #     visualizer = Visualizer(problem)  # Optional visualizer for debugging
-    #     visualizer.visualize(frontier)
+            # Check if we reached a goal state (all tasks are scheduled)
+            if len(current_schedule) == self.problem.length:
+                # Compute total cost of this schedule
+                cost = sum(
+                    task.getDeadline() - task.getDuration() - current_day 
+                    for task in current_schedule
+                )
+                # Update optimal schedule if this one is better
+                if cost < optimal_cost:
+                    optimal_cost = cost
+                    optimal_schedule = current_schedule
+                continue
 
-    while frontier:  # While there are nodes to explore
-        node = frontier.popleft()  # Dequeue the first node in the frontier
-        explored.add(node.state)  # Mark the node as explored
+            # Generate all possible actions (tasks that have no remaining dependencies)
+            possible_routes = {}
+            for task in remaining_tasks:
+                # A task is ready to be scheduled if all its dependencies are completed
+                dependencies = task.getDependencies()
+                if all(dep in completed_tasks for dep in dependencies):
+                    cost = task.getDeadline() - task.getDuration() - current_day
+                    possible_routes[task] = cost
 
-        # Expand the frontier with the children
-        for action in problem.actions(node.state):  # Get possible actions from the current state
-            child = Node.child(problem, node, action)  # Generate child node
-            if child.state not in explored and child not in frontier:  # Check if child is unexplored
-                if problem.goal_test(child.state):  # Check if the child is the goal
-                    return node_obj.solution(child), max_frontier_size  # Return the solution and max frontier size
-                frontier.append(child)  # Add child to the frontier
+            # Enqueue new states for BFS
+            for task, cost in possible_routes.items():
+                # Create new state: append the task to the schedule, mark it as completed
+                new_schedule = current_schedule + [task]
+                new_remaining_tasks = [t for t in remaining_tasks if t != task]
+                new_current_day = current_day + task.getDuration()
 
-        # Track the maximum size of the frontier
-        max_frontier_size = max(max_frontier_size, len(frontier))
+                # Update completed tasks set
+                new_completed_tasks = completed_tasks.copy()
+                new_completed_tasks.add(task.getID())
 
-        # if verbose:
-        #     visualizer.visualize(frontier)  # Visualize the current state of the frontier
+                # Update dependencies for the remaining tasks
+                for t in new_remaining_tasks:
+                    dependencies = t.getDependencies()
+                    if task.getID() in dependencies:
+                        dependencies.remove(task.getID())  # Remove completed task ID
+                        t.setDependencies(dependencies)
 
-    return None, max_frontier_size  # Return None if no solution is found
+                queue.append((new_schedule, new_remaining_tasks, new_current_day, new_completed_tasks))
+
+        # Set the optimal schedule
+        self.optimal_schedule = optimal_schedule
+
+    def get_optimal_schedule(self):
+        return self.optimal_schedule
+
+    def print_schedule(self):
+        if not self.optimal_schedule:
+            print("No schedule has been computed yet. Run bfs_tree() first.")
+            return
+
+        print("Optimal Schedule:")
+        for idx, task in enumerate(self.optimal_schedule, start=1):
+            print(f"{idx}. Task ID: {task.getID()}, Description: {task.getDescription()}, "
+                  f"Deadline: {task.getDeadline()}, Duration: {task.getDuration()}")

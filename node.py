@@ -14,10 +14,10 @@ class Node:
     @classmethod
     def child(cls, problem, parent, action):
         return cls(
-            problem.result(parent.state, action),
+            problem.result(),
             parent,
             action,
-            parent.path_cost + problem.step_cost(parent.state, action))
+            parent.path_cost + problem.step_cost())
 
 def solution(node):
     actions = []
