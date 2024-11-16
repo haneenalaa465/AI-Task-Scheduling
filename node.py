@@ -5,19 +5,19 @@ class Node:
         self.action = action
         self.path_cost = path_cost
 
-    # initialize root of tree
     @classmethod
     def root(cls, init_state):
         return cls(init_state, None, None, 0)
 
-    # initialize new child nodes
     @classmethod
     def child(cls, problem, parent, action):
+        problem.action()
         return cls(
-            problem.result(parent.state, action),
+            problem.result(),
             parent,
             action,
-            parent.path_cost + problem.step_cost(parent.state, action))
+            parent.path_cost + problem.step_cost().get(action, 0)
+        )
 
 def solution(node):
     actions = []
