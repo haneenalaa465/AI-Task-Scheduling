@@ -1,6 +1,4 @@
 import random
-from task import Task
-from problem import Problem
 
 class GeneticAlgorithm:
     def __init__(self, tasks, population_size, max_generations, mutation_rate):
@@ -70,43 +68,3 @@ class GeneticAlgorithm:
         return best_solution
 
 # //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-# Run Genetic Algorithm
-
-def main():
-    task1 = Task(1, "Task 1", 2, 6, [])  
-    task2 = Task(2, "Task 2", 4, 8, [1, 3])  
-    task3 = Task(3, "Task 3", 3, 5, [1])  
-    task4 = Task(4, "Task 4", 2, 7, [2, 5])  
-    task5 = Task(5, "Task 5", 5, 9, [3])
-
-    tasks = [task1, task2, task3, task4, task5]
-    
-    problem = Problem(tasks, init_state=0)
-
-    population_size = 10  
-    max_generations = 5
-    mutation_rate = 0.1  
-
-    ga = GeneticAlgorithm(
-        tasks=tasks, 
-        population_size=10, 
-        max_generations=20, 
-        mutation_rate=0.1
-    )
-    print("\nRunning Genetic Algorithm...")
-    try:
-        best_schedule = ga.genetic()
-
-        if best_schedule:
-            print("\nBest schedule found by the genetic algorithm:")
-            for task in best_schedule:
-                print(f"Task ID: {task.getID()} - {task.getDescription()} (Duration: {task.getDuration()})")
-        else:
-            print("No solution found")
-    except Exception as e:
-        print("Error occurred:", e)
-
-if __name__ == "__main__":
-    main()
-

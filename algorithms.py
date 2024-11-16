@@ -77,8 +77,9 @@ def run_algorithm(problem, algo):
         print("Memory:", max_memory, "MB")
 
     elif algo == "genetic":
+        ga = GeneticAlgorithm(tasks=problem.tasks, population_size=10, max_generations=20, mutation_rate=0.1)
         print("\nRunning Genetic:")
-        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: GeneticAlgorithm(problem, 10, 5, 0.1))
+        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: ga.genetic())
         print_schedule(schedule)
         print("Time:", time_elapsed, "sec")
         print("Memory:", max_memory, "MB")
