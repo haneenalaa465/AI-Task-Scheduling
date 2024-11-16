@@ -89,7 +89,7 @@ def main():
     ga = GeneticAlgorithm(
         tasks=tasks, 
         population_size=10, 
-        max_generations=50, 
+        max_generations=20, 
         mutation_rate=0.1
     )
     print("\nRunning Genetic Algorithm...")
