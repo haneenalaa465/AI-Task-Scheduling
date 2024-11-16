@@ -32,14 +32,4 @@ def a_star(problem):
             total_cost = new_current_day + penalty_cost
 
             heapq.heappush(pq, (total_cost, new_schedule, new_remaining_tasks, new_current_day, new_completed_tasks))
-    print_schedule(best_schedule)
     return best_schedule
-
-def print_schedule(schedule):
-    if not schedule:
-        print("No schedule :(")
-        return
-
-    print("Schedule:")
-    for task in schedule:
-        task.task_vis()  

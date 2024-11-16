@@ -8,13 +8,13 @@ def dfs(problem):
     while stack:
         current_schedule, remaining_tasks, current_day, completed_tasks = stack.pop()
 
-        # if the schedule is complete, calculate the cost
+        # if schedule is complete => calculate  cost
         if len(current_schedule) == problem.length:
             cost = 0
             for task in current_schedule:
                 delay = max(0, current_day + task.getDuration() - task.getDeadline())
                 cost += delay
-            # Update best schedule if the cost is lower
+            # update best schedule if the cost is lower
             if cost < minimum_cost:
                 minimum_cost = cost
                 best_schedule = current_schedule
