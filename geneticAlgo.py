@@ -1,4 +1,3 @@
-# merged one:
 import random
 
 class GeneticAlgorithm:
