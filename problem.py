@@ -3,6 +3,7 @@ class Problem:
     def __init__(self, tasks, init_state):
         self.tasks = tasks
         self.init_state = init_state
+        self.length = len(tasks)
         self.schedule = []
         self.today = 0
 
@@ -35,11 +36,6 @@ class Problem:
     def result(self):
         return self.schedule
 
-    def goal_state(self, state=None):
-        return len(self.schedule) == self.length and bool(self.schedule)
-
     # checks whether all tasks have been added
     def goal_state(self):
-        if len(self.schedule) == self.length:
-            return True
-        return False
+        return len(self.schedule) == self.length and bool(self.schedule)

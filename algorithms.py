@@ -6,6 +6,7 @@ from bfs import bfs
 from ucs import UCS
 from hillclimb import hill_climbing
 from a_star import a_star
+from IDS import mainIDS
 from sa import simulated_annealing
 import time
 from memory_profiler import memory_usage
@@ -33,7 +34,7 @@ def run_algorithm(problem, algo, timing=False):
 
     elif algo == "ids":
         print("\nRunning IDS:")
-        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: ids(problem))
+        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: mainIDS(problem))
         print_schedule(schedule)
         print("Time:", time_elapsed, "sec")
         print("Memory:", max_memory, "MB")
@@ -90,5 +91,15 @@ def print_schedule(schedule):
         return
 
     print("Schedule:")
+    total_cost = 0
+    completion_time = 0
     for task in schedule:
-        task.task_vis()
+        completion_time += task.getDuration()
+        latency_cost = max(0, completion_time - task.getDeadline())
+        total_cost += latency_cost
+        print(
+            f"ID: {task.getID()} | Description: {task.getDescription()} | "
+            f"Duration: {task.getDuration()} | Deadline: {task.getDeadline()} | "
+            f"Completion Time: {completion_time} | Latency Cost: {latency_cost}"
+        )
+    print(f"\nTotal Latency Cost: {total_cost}")
