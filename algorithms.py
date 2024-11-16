@@ -8,6 +8,7 @@ from hillclimb import hill_climbing
 from a_star import a_star
 from IDS import mainIDS
 from sa import simulated_annealing
+from geneticAlgo import GeneticAlgorithm
 import time
 from memory_profiler import memory_usage
 
@@ -76,6 +77,13 @@ def run_algorithm(problem, algo):
 
     elif algo == "genetic":
         print("\nRunning Genetic:")
+        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: genetic(problem))
+        print_schedule(schedule)
+        print("Time:", time_elapsed, "sec")
+        print("Memory:", max_memory, "MB")
+    
+    elif algo == "genetic":
+        print("\nRunning Genetic Algorithm:")
         time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: genetic(problem))
         print_schedule(schedule)
         print("Time:", time_elapsed, "sec")
