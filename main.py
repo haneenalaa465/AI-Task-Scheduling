@@ -17,11 +17,6 @@ def main():
     # problem = Problem(tasks, init_state = task1)
     # ucs = UCS(tree=None, init_state=task1, problem=problem)  
     # ucs.findPath()
-
-    init_state = []
-    problem = Problem(tasks, init_state)
-    actions, cost = IDS(problem)
-    print(f"Optimal Schedule: {actions}, Total Cost: {cost}")
     
 
 if __name__ == "__main__":
