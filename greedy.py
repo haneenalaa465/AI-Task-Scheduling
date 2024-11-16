@@ -32,36 +32,37 @@ class GreedyBestFirstSearch:
         return self.schedule
     
     
-def mainGreedy():
-    task1 = Task("A", "Task A", 2, 3, [])
-    task2 = Task("B", "Task B", 3, 5, ["A"])
-    task3 = Task("C", "Task C", 2, 4, [])
-    task4 = Task("D", "Task D", 2, 5, ["A"])
-    task5 = Task("E", "Task E", 1, 5, ["B", "D"])
-    tasks = [task1, task2, task3, task4, task5]
+def mainGreedy(problem):
+    # task1 = Task("A", "Task A", 2, 3, [])
+    # task2 = Task("B", "Task B", 3, 5, ["A"])
+    # task3 = Task("C", "Task C", 2, 4, [])
+    # task4 = Task("D", "Task D", 2, 5, ["A"])
+    # task5 = Task("E", "Task E", 1, 5, ["B", "D"])
+    # tasks = [task1, task2, task3, task4, task5]
 
-    init_state = []
-    problem = Problem(tasks, init_state)
+    # init_state = []
+    # problem = Problem(tasks, init_state)
 
     gbfs = GreedyBestFirstSearch(problem)
     schedule = gbfs.search()
+    return schedule
 
-    print("Final Schedule:")
-    total_cost = 0
-    completion_time = 0
+#     print("Final Schedule:")
+#     total_cost = 0
+#     completion_time = 0
 
-    for task in schedule:
-        completion_time += task.getDuration()
-        latency_cost = max(0, completion_time - task.getDeadline())
-        total_cost += latency_cost
+#     for task in schedule:
+#         completion_time += task.getDuration()
+#         latency_cost = max(0, completion_time - task.getDeadline())
+#         total_cost += latency_cost
 
-        print(
-            f"ID: {task.getID()} | Description: {task.getDescription()} | "
-            f"Duration: {task.getDuration()} | Deadline: {task.getDeadline()} | "
-            f"Completion Time: {completion_time} | Latency Cost: {latency_cost}"
-        )
+#         print(
+#             f"ID: {task.getID()} | Description: {task.getDescription()} | "
+#             f"Duration: {task.getDuration()} | Deadline: {task.getDeadline()} | "
+#             f"Completion Time: {completion_time} | Latency Cost: {latency_cost}"
+#         )
 
-    print(f"\nTotal Latency Cost: {total_cost}")
+#     print(f"\nTotal Latency Cost: {total_cost}")
 
 
-mainGreedy()
+# mainGreedy()

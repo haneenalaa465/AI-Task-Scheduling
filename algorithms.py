@@ -9,6 +9,7 @@ from a_star import a_star
 from IDS import mainIDS
 from sa import simulated_annealing
 from geneticAlgo import GeneticAlgorithm
+from greedy import mainGreedy
 import time
 from memory_profiler import memory_usage
 
@@ -49,7 +50,7 @@ def run_algorithm(problem, algo):
 
     elif algo == "greedy":
         print("\nRunning Greedy:")
-        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: greedy(problem))
+        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: mainGreedy(problem))
         print_schedule(schedule)
         print("Time:", time_elapsed, "sec")
         print("Memory:", max_memory, "MB")
