@@ -2,49 +2,31 @@ from collections import deque
 
 def bfs(problem):
     queue = deque()
-    initial_state = ([], problem.tasks, problem.init_state, set())
-    queue.append(initial_state)
-    schedule = []
-    min_cost = float('inf')  
-    task_dependencies = {task.getID(): set(task.getDependencies()) for task in problem.tasks}
-
+    min_cost = float('inf')
+    chosen_sched = []
+    
+    for task in problem.tasks:
+        if not task.getDependencies():
+            queue.append(task)
+    
     while queue:
-        current_schedule, remaining_tasks, current_day, completed_tasks = queue.popleft()
+        task = queue.popleft()
         
-        if len(current_schedule) == problem.length:
-            cost = sum((task.getDeadline() - task.getDuration() - current_day) for task in current_schedule)
+        if task not in problem.schedule:
+            problem.action()  
+
+        if problem.goal_state():
+            cost = sum((task.getDeadline() - task.getDuration() - problem.today) for task in problem.schedule)
             if cost < min_cost:
                 min_cost = cost
-                schedule = current_schedule
-            continue
+                chosen_sched = problem.schedule  
 
-        possible_routes = {}
-        for task in remaining_tasks:
-            dependencies = task_dependencies.get(task.getID(), set())
-            if dependencies.issubset(completed_tasks):  
-                cost = task.getDeadline() - task.getDuration() - current_day
-                possible_routes[task] = cost
+        for n_task in problem.tasks:
+            if n_task not in problem.schedule and all(dep in problem.schedule for dep in n_task.getDependencies()):
+                queue.append(n_task)
 
-        if not possible_routes:
-            continue
-
-        for task, cost in possible_routes.items():
-            new_schedule = current_schedule + [task]  
-            new_remaining_tasks = [t for t in remaining_tasks if t != task]
-            new_current_day = current_day + task.getDuration()
-
-            remaining_completed_tasks = completed_tasks.copy()
-            remaining_completed_tasks.add(task.getID())
-
-            for t in new_remaining_tasks:
-                dependencies = t.getDependencies()
-                if task.getID() in dependencies:
-                    dependencies.remove(task.getID())  
-                    t.setDependencies(dependencies)
-
-            queue.append((new_schedule, new_remaining_tasks, new_current_day, remaining_completed_tasks))
-
-    return schedule
+    print_schedule(chosen_sched)
+    return chosen_sched
 
 def print_schedule(schedule):
     if not schedule:
@@ -53,4 +35,4 @@ def print_schedule(schedule):
 
     print("Schedule:")
     for task in schedule:
-        task.task_vis()  
+        task.task_vis()
