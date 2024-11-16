@@ -10,24 +10,21 @@ class Problem:
     #return dictionary with all tasks w/o dependencies & their costs
     def step_cost(self):
         possible_routes = dict()
-        for i in range(len(self.tasks)):
-            if self.tasks[i].getDependencies() == []:
-                cost = self.tasks[i]._deadline - self.tasks[i].getDuration() - self.today
-                possible_routes[self.tasks[i]] = cost
-        # print("Possible Routes:", {t.getID(): c for t, c in possible_routes.items()})
+        for task in self.tasks:
+            if not task.getDependencies():
+                cost = max(0, task.getDeadline() - (self.today + task.getDuration()))
+                possible_routes[task] = cost
         return possible_routes
 
     # appends best task to schedule 
     def action(self):
         possible_routes = self.step_cost()
         if not possible_routes:  
-            # print("No tasks available to schedule!")
             return
-        min_task_cost = min(possible_routes, key=possible_routes.get)
-        self.today += min_task_cost.getDuration()
-        self.schedule.append(min_task_cost)
-        # print(f"Scheduled task {min_task_cost.getID()} at day {self.today}")
-
+        selected_task = min(possible_routes, key=possible_routes.get)
+        self.today += selected_task.getDuration()
+        self.schedule.append(selected_task)
+        self.tasks.remove(selected_task) 
         for task in self.tasks:
             if selected_task.getID() in task.getDependencies():
                 deps = task.getDependencies()
