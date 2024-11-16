@@ -4,7 +4,6 @@ class Problem:
         self.tasks = tasks
         self.length = len(tasks)
         self.init_state = init_state
-        self.length = len(tasks)
         self.schedule = []
         self.today = 0
 
