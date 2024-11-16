@@ -1,6 +1,6 @@
 from collections import deque
 
-def bfs_scheduler(problem):
+def bfs(problem):
     queue = deque()
     initial_state = ([], problem.tasks, problem.init_state, set())
     queue.append(initial_state)

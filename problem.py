@@ -12,7 +12,7 @@ class Problem:
     def step_cost(self):
         possible_routes = {}
         for task in (self.tasks):
-            if not task.getDependencies():
+            if not task.getDependencies() and task not in self.schedule:
                 cost = task.getDeadline() - task.getDuration() - self.today
                 possible_routes[task] = cost
         return possible_routes

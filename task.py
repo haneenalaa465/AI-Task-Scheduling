@@ -39,5 +39,11 @@ class Task:
     def task_vis(self):
         print("ID:", self.getID(), " Description:", self.getDescription(), " Duration:", self.getDuration(), 
             " Deadline:", self.getDeadline(), " Dependencies:", self.getDependencies())
+        
+    # override "<" for comparison in a_star search
+    def __lt__(self, other):
+        self_cost = self.getDuration() + max(0, self.getDeadline() - self.getDuration())
+        other_cost = other.getDuration() + max(0, other.getDeadline() - other.getDuration())
+        return self_cost < other_cost
 
     
