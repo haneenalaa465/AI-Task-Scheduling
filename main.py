@@ -7,7 +7,7 @@ from ucs import UCS
 from hillclimb import hill_climbing
 from a_star import a_star
 from sa import simulated_annealing
-from algorithms import run_algorithm
+from algorithms import run_algorithm, comparison
 
 def main():
     # example 1
@@ -27,23 +27,15 @@ def main():
     tasks = [task1, task2, task3, task4, task5]
     problem = Problem(tasks, 0)
 
+    # comparison(problem)
+
     while True:
         print("\nbfs, dfs, ids, ucs, greedy, a_star, hillclimb, simulated_annealing, genetic\nType 0 to exit")
         algo = input("Select algorithm (type as above):")
         if algo == "0":
             break
-        schedule = run_algorithm(problem, algo)
-        print_schedule(schedule)
+        run_algorithm(problem, algo)
     
-
-def print_schedule(schedule):
-    if not schedule:
-        print("No schedule :(")
-        return
-
-    print("Schedule:")
-    for task in schedule:
-        task.task_vis()  
 
 if __name__ == "__main__":
     main()
