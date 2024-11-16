@@ -1,7 +1,7 @@
 import heapq
 
 class GreedyBestFirstSearch:
-    def _init_(self, problem):
+    def __init__(self, problem):
         self.problem = problem
         self.schedule = []
         self.current_time = 0
