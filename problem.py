@@ -9,23 +9,25 @@ class Problem:
 
     #return dictionary with all tasks w/o dependencies & their costs
     def step_cost(self):
-        possible_routes = {}
-        for task in (self.tasks):
-            if not task.getDependencies():
-                cost = max(0, task.getDeadline() - (self.today + task.getDuration()))
-                possible_routes[task] = cost
+        possible_routes = dict()
+        for i in range(len(self.tasks)):
+            if self.tasks[i].getDependencies() == []:
+                cost = self.tasks[i]._deadline - self.tasks[i].getDuration() - self.today
+                possible_routes[self.tasks[i]] = cost
+        # print("Possible Routes:", {t.getID(): c for t, c in possible_routes.items()})
         return possible_routes
 
     # appends best task to schedule 
     def action(self):
         possible_routes = self.step_cost()
-        if not possible_routes:
+        if not possible_routes:  
+            # print("No tasks available to schedule!")
             return
-    
-        selected_task = min(possible_routes, key=possible_routes.get)
-        self.today += selected_task.getDuration()
-        self.schedule.append(selected_task)
-        self.tasks.remove(selected_task)
+        min_task_cost = min(possible_routes, key=possible_routes.get)
+        self.today += min_task_cost.getDuration()
+        self.schedule.append(min_task_cost)
+        # print(f"Scheduled task {min_task_cost.getID()} at day {self.today}")
+
         for task in self.tasks:
             if selected_task.getID() in task.getDependencies():
                 deps = task.getDependencies()
@@ -41,5 +43,7 @@ class Problem:
         return len(self.schedule) == self.length and bool(self.schedule)
 
     # checks whether all tasks have been added
-    def actions(self, state=None):
-        return list(self.step_cost().keys())
+    def goal_state(self):
+        if len(self.schedule) == self.length:
+            return True
+        return False

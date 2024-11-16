@@ -16,8 +16,7 @@ class Node:
             problem.result(),
             parent,
             action,
-            parent.path_cost + problem.step_cost().get(action, 0)
-        )
+            parent.path_cost + problem.step_cost(parent.state, action))
 
 def solution(node):
     actions = []

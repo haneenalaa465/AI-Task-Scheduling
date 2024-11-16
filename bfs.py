@@ -1,40 +1,29 @@
 from collections import deque
-from node import Node
 
-node_obj = Node
+def bfs(problem):
+    queue = deque()
+    min_cost = float('inf')
+    chosen_sched = []
+    
+    for task in problem.tasks:
+        if not task.getDependencies():
+            queue.append(task)
+    
+    while queue:
+        task = queue.popleft()
+        
+        if task not in problem.schedule:
+            problem.action()  
 
-def breadth_first_graph_search(problem, verbose=False):
-    """
-    Implements BFS for graph search with an optional verbose output.
-    """
-    node = Node.root(problem.init_state)  # Create the root node from the initial state
-    if problem.goal_test(node.state):  # Check if the initial state is the goal
-        return node_obj.solution(node), 1  # Return immediately if start is the goal
+        if problem.goal_state():
+            cost = sum((task.getDeadline() - task.getDuration() - problem.today) for task in problem.schedule)
+            if cost < min_cost:
+                min_cost = cost
+                chosen_sched = problem.schedule  
 
-    frontier = deque([node])  # Initialize the frontier with the root node
-    explored = set()  # Set to keep track of explored nodes
-    max_frontier_size = 1  # Initialize max frontier size
+        for n_task in problem.tasks:
+            if n_task not in problem.schedule and all(dep in problem.schedule for dep in n_task.getDependencies()):
+                queue.append(n_task)
 
-    # if verbose:
-    #     visualizer = Visualizer(problem)  # Optional visualizer for debugging
-    #     visualizer.visualize(frontier)
+    return chosen_sched
 
-    while frontier:  # While there are nodes to explore
-        node = frontier.popleft()  # Dequeue the first node in the frontier
-        explored.add(node.state)  # Mark the node as explored
-
-        # Expand the frontier with the children
-        for action in problem.actions(node.state):  # Get possible actions from the current state
-            child = Node.child(problem, node, action)  # Generate child node
-            if child.state not in explored and child not in frontier:  # Check if child is unexplored
-                if problem.goal_test(child.state):  # Check if the child is the goal
-                    return node_obj.solution(child), max_frontier_size  # Return the solution and max frontier size
-                frontier.append(child)  # Add child to the frontier
-
-        # Track the maximum size of the frontier
-        max_frontier_size = max(max_frontier_size, len(frontier))
-
-        # if verbose:
-        #     visualizer.visualize(frontier)  # Visualize the current state of the frontier
-
-    return None, max_frontier_size  # Return None if no solution is found
