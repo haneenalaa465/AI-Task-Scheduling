@@ -30,9 +30,9 @@ def main():
     # print_schedule(optimal_schedule_bfs) 
 
     # # Run the DFS scheduler
-    # print("\nRunning DFS Scheduler:")
-    # schedule = dfs(problem)
-    # print_schedule(schedule)
+    print("\nRunning DFS Scheduler:")
+    schedule = dfs(problem)
+    print_schedule(schedule)
 
     # # UCS Trials
     # print("\nRunning UCS Scheduler:")
@@ -44,10 +44,8 @@ def main():
     # a_star(problem)
 
     # hill_climb_trials
-    print("\nRunning hill climb:")
-    hill_climbing(problem)
-
-
+    # print("\nRunning hill climb:")
+    # hill_climbing(problem)
 
 
 if __name__ == "__main__":
