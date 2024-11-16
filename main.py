@@ -6,6 +6,7 @@ from bfs import bfs, print_schedule
 from ucs import UCS
 from hillclimb import hill_climbing
 from a_star import a_star
+from sa import simulated_annealing
 
 def main():
     # task1 = Task(1, "Task 1", 2, 5, [2, 3, 5])
@@ -30,9 +31,9 @@ def main():
     # print_schedule(optimal_schedule_bfs) 
 
     # # Run the DFS scheduler
-    print("\nRunning DFS Scheduler:")
-    schedule = dfs(problem)
-    print_schedule(schedule)
+    # print("\nRunning DFS Scheduler:")
+    # schedule = dfs(problem)
+    # print_schedule(schedule)
 
     # # UCS Trials
     # print("\nRunning UCS Scheduler:")
@@ -46,6 +47,11 @@ def main():
     # hill_climb_trials
     # print("\nRunning hill climb:")
     # hill_climbing(problem)
+
+    # # Run the Simulated Annealing
+    print("\nRunning Simulated Annealing:")
+    schedule = simulated_annealing(problem)
+    print_schedule(schedule)
 
 
 if __name__ == "__main__":
