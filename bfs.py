@@ -25,14 +25,5 @@ def bfs(problem):
             if n_task not in problem.schedule and all(dep in problem.schedule for dep in n_task.getDependencies()):
                 queue.append(n_task)
 
-    print_schedule(chosen_sched)
     return chosen_sched
 
-def print_schedule(schedule):
-    if not schedule:
-        print("No schedule :(")
-        return
-
-    print("Schedule:")
-    for task in schedule:
-        task.task_vis()

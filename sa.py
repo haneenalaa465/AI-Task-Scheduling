@@ -1,77 +1,41 @@
 from task import Task
+from problem import Problem
 import random
 import math
 
-class Problem:
-    def __init__(self, tasks, init_state):
-        self.tasks = tasks
-        self.init_state = init_state
-        self.schedule = None  # store final schedule
+def simulated_annealing(problem, initial_temperature=1000, cooling_rate=0.99, min_temperature=1e-3):
+     # initial state (empty schedule) & initial schedule (empty list)
+    current_state = problem.init_state 
+    current_schedule = problem.schedule 
+    # total duration as cost 
+    current_cost = 0
+    for task in current_schedule:
+        current_cost += task.getDuration()
+    # initial tem=1000
+    temperature = initial_temperature
 
-class SimulatedAnnealing:
-    def __init__(self, problem, initial_temperature=1000, cooling_rate=0.95):
-        self.problem = problem
-        self.temperature = initial_temperature
-        self.cooling_rate = cooling_rate
+    while temperature > min_temperature:
+        # select a task and add it to the schedule & update the schedule
+        problem.action() 
+        # updated schedule and cost
+        current_schedule = problem.result()
+        # update cost
+        for task in current_schedule:
+            current_cost += task.getDuration()
+        # delta = cost difference between new and old schedule
+        delta = current_cost - sum(task.getDuration() for task in current_schedule)
+        # Accept new schedule with a probability based on temperature
+        if delta < 0 or random.random() < math.exp(-delta / temperature):
+            pass  #nothing to do because we updated the schedule already
+        else:
+            # If the new schedule is worse => revert the old one
+            problem.schedule = current_schedule  
+        
+        # Cool down temp
+        temperature *= cooling_rate
+        # is goal state reached yet?
+        if problem.goal_state():
+            break
 
-    def evaluate_schedule(self, schedule):
-        # Calculate the total penalty for the given schedule
-        current_time = 0
-        total_penalty = 0
-        for task in schedule:
-            current_time += task.getDuration()
-            if current_time > task.getDeadline():
-                total_penalty += current_time - task.getDeadline()  # Penalty for being late
-        return -total_penalty  # maximize the negative penalty
-
-    def get_neighbors(self, schedule):
-        # Generate neighboring schedules by swapping two tasks
-        neighbors = []
-        for i in range(len(schedule)):
-            for j in range(i + 1, len(schedule)):
-                neighbor = schedule[:]
-                neighbor[i], neighbor[j] = neighbor[j], neighbor[i]  # Swap tasks
-                neighbors.append(neighbor)
-        return neighbors
-
-    def climb(self):
-        current_schedule = self.problem.init_state
-        current_value = self.evaluate_schedule(current_schedule)
-
-        while self.temperature > 1:
-            neighbors = self.get_neighbors(current_schedule)
-            next_schedule = random.choice(neighbors)
-            next_value = self.evaluate_schedule(next_schedule)
-
-            # Calculate value changes
-            delta = next_value - current_value
-
-            # Decide whether to accept 
-            if delta > 0 or random.uniform(0, 1) < math.exp(delta / self.temperature):
-                current_schedule = next_schedule
-                current_value = next_value
-            
-            # Print  current schedule and value for debugging
-            print(f"Current Schedule: {[task.getID() for task in current_schedule]}, Value: {current_value}, Temperature: {self.temperature}")
-
-            # cool down  temperature
-            self.temperature *= self.cooling_rate
-
-        # Update the problem's schedule with the best found schedule
-        self.problem.schedule = current_schedule
-        return current_schedule, current_value
-
-# eg
-tasks = [
-    Task(ID=1, description="Task 1", duration=4, deadline=5, dependencies=[]),  
-    Task(ID=2, description="Task 2", duration=3, deadline=6, dependencies=[]),  
-    Task(ID=3, description="Task 3", duration=2, deadline=4, dependencies=[]),  
-]
-
-initial_state = random.sample(tasks, len(tasks))
-problem = Problem(tasks, initial_state)
-
-simulated_annealing = SimulatedAnnealing(problem)
-best_schedule, best_value = simulated_annealing.climb()
-
-print("Best Schedule:", [task.getID() for task in best_schedule], "Value:", best_value)
+    schedule = problem.result()
+    return schedule
