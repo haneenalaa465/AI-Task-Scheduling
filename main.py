@@ -29,8 +29,7 @@ def main():
     # Show an algorithms result at a time
     tasks = [task1, task2, task3, task4, task5]
     problem = Problem(tasks, 0)
-    # print("\nbfs, dfs, ids, ucs, greedy, a_star, hillclimb, simulated_annealing, genetic\nType 0 to exit")
-    print("\nbfs, dfs, ucs, ids, a_star, hillclimb, simulated_annealing, genetic")
+    print("\nbfs, dfs, ids, ucs, greedy, a_star, hillclimb, simulated_annealing, genetic")
     algo = input("Select algorithm (type as above):")
     run_algorithm(problem, algo)
     

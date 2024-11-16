@@ -1,4 +1,6 @@
 import random
+from task import Task
+from problem import Problem
 
 class GeneticAlgorithm:
     def __init__(self, tasks, population_size, max_generations, mutation_rate):

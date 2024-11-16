@@ -77,17 +77,11 @@ def run_algorithm(problem, algo):
 
     elif algo == "genetic":
         print("\nRunning Genetic:")
-        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: genetic(problem))
+        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: GeneticAlgorithm(problem, 10, 5, 0.1))
         print_schedule(schedule)
         print("Time:", time_elapsed, "sec")
         print("Memory:", max_memory, "MB")
-    
-    elif algo == "genetic":
-        print("\nRunning Genetic Algorithm:")
-        time_elapsed, max_memory, schedule = run_with_memory_tracking(lambda: genetic(problem))
-        print_schedule(schedule)
-        print("Time:", time_elapsed, "sec")
-        print("Memory:", max_memory, "MB")
+
 
     else:
         print("404 - algorithm not found")
