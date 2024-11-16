@@ -11,7 +11,7 @@ from sa import simulated_annealing
 import time
 from memory_profiler import memory_usage
 
-def run_algorithm(problem, algo, timing=False):
+def run_algorithm(problem, algo):
     def run_with_memory_tracking(func):
         t0 = time.time()
         mem_usage, result = memory_usage((func,), retval=True, max_usage=True)

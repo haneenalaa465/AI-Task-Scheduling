@@ -26,4 +26,3 @@ def bfs(problem):
                 queue.append(n_task)
 
     return chosen_sched
-

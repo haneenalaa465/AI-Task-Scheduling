@@ -12,19 +12,19 @@ def main():
     # task5 = Task(5, "Task 5", 2, 20, [])
 
     # example 2
-    task1 = Task(1, "Task 1", 2, 6, [])  
-    task2 = Task(2, "Task 2", 4, 8, [1, 3])  
-    task3 = Task(3, "Task 3", 3, 5, [1])  
-    task4 = Task(4, "Task 4", 2, 7, [2, 5])  
-    task5 = Task(5, "Task 5", 5, 9, [3])
+    # task1 = Task(1, "Task 1", 2, 6, [])  
+    # task2 = Task(2, "Task 2", 4, 8, [1, 3])  
+    # task3 = Task(3, "Task 3", 3, 5, [1])  
+    # task4 = Task(4, "Task 4", 2, 7, [2, 5])  
+    # task5 = Task(5, "Task 5", 5, 9, [3])
 
     # example 3
-    # task1 = Task("A", "Task A", 2, 3, [])
-    # task2 = Task("B", "Task B", 3, 5, ["A"])
-    # task3 = Task("C", "Task C", 2, 4, [])
-    # task4 = Task("D", "Task D", 2, 5, ["A"])
-    # task5 = Task("E", "Task E", 1, 5, ["B", "D"])
-    # tasks = [task1, task2, task3, task4, task5]
+    task1 = Task("A", "Task A", 2, 3, [])
+    task2 = Task("B", "Task B", 3, 5, ["A"])
+    task3 = Task("C", "Task C", 2, 4, [])
+    task4 = Task("D", "Task D", 2, 5, ["A"])
+    task5 = Task("E", "Task E", 1, 5, ["B", "D"])
+    tasks = [task1, task2, task3, task4, task5]
 
     # Show an algorithms result at a time
     tasks = [task1, task2, task3, task4, task5]
