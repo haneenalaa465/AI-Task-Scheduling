@@ -40,6 +40,7 @@ class UCS:
                     self.frontier.put((total_cost, t.getID(), t))  
 
         self.printSchedule()
+        return self.problem.schedule
 
     def getStepCost(self, current_task):
             routes = {}
