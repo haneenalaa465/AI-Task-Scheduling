@@ -26,14 +26,13 @@ def main():
     # task5 = Task("E", "Task E", 1, 5, ["B", "D"])
     # tasks = [task1, task2, task3, task4, task5]
 
-    # Show an algorithms result at a time
+    # show one algorithm result at a time
     tasks = [task1, task2, task3, task4, task5]
     problem = Problem(tasks, 0)
     print("\nbfs, dfs, ids, ucs, greedy, a_star, hillclimb, simulated_annealing, genetic")
     algo = input("Select algorithm (type as above):")
     run_algorithm(problem, algo)
     
-
 if __name__ == "__main__":
     main()
 
