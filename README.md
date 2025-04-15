@@ -1,9 +1,9 @@
 # AI Task Scheduling - Application of Search Algorithms
 
 ## 📚 Course
-Artificial Intelligence (CSAI 301)
-School of Computer Science and Artificial Intelligence
-Zewail City of Science and Technology
+- Artificial Intelligence (CSAI 301)
+- School of Computer Science and Artificial Intelligence
+- Zewail City of Science and Technology
 
 ## 📌 Objective
 We model the task scheduling problem as a search problem. Our goal is to explore and compare the performance of classical search algorithms in generating an optimal execution order of dependent tasks, each with a specific duration and deadline.
